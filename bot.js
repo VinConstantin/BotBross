@@ -71,6 +71,7 @@ client.on('message', async msg => {
             queue.set(msg.guild.id, queueConstruct);
 
             queueConstruct.songs.push(song);
+            msg.channel.send(`**${song.title}** is now playing!`);
 
             try {
                 var connection = await voiceChannel.join();
@@ -84,7 +85,7 @@ client.on('message', async msg => {
             }
         } else {
             serverQueue.songs.push(song);
-            msg.channel.send(`**${song.title}** has been added to the queue`);
+            msg.channel.send(`**${song.title}** has been added to the queue!`);
         }
         return undefined;
     } else if(msg.content.startsWith(`${PREFIX}skip`)){
@@ -95,36 +96,74 @@ client.on('message', async msg => {
         if(!msg.member.voiceChannel) return msg.channel.send('You are not in a voice channel!');
         msg.member.voiceChannel.leave();
         return undefined;
+    } else if(msg.content.startsWith(`${PREFIX}list`)){
+        const serverQueue = queue.get(msg.guild.id);
+        if(serverQueue){
+            if(serverQueue.songs[1]){
+                console.log(serverQueue.songs.length);
+                var result = '**Queue list**```';
+                for(var i = 1; i < serverQueue.songs.length; i++){
+                    result += i + '. ' + serverQueue.songs[i].title + '\n';
+                }
+                msg.channel.send(result + '```');
+            } else {
+                msg.channel.send("No queue!");
+            }
+        } else {
+            msg.channel.send("No queue!");
+        }
+        return undefined;
+    } else if(msg.content.startsWith(`${PREFIX}pause`)){
+        if(serverQueue && serverQueue.playing){
+            serverQueue.playing = false;
+            serverQueue.connection.dispatcher.pause();
+            return msg.channel.send('Music is paused!');
+        }
+        return msg.channel.send('No music playing!');
+    } else if(msg.content.startsWith(`${PREFIX}resume`)){
+        if(serverQueue && !serverQueue.playing){
+            serverQueue.playing = true;
+            serverQueue.connection.dispatcher.resume();
+            return msg.channel.send('Music was resumed!');
+        }
+        return msg.channel.send('No music playing!');
     } else if(msg.content.startsWith(`${PREFIX}weather`)){
         weather.getCoords(args[1], (coords) =>{
             weather.getTemp(coords, (weather) => {
                 msg.channel.send(weather);
             });
         });
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}day`)){
         sun.getCoords(args[1], (coords) => {
             sun.getDay(coords, (dayLength) =>{
                 msg.channel.send(dayLength);
             });
         });
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}steam`)){
         steam.getPlayer(args[1], args[2], (result) => {
             msg.channel.send(result);
         });
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}rl`)){
         rl.getPlayer(args[1], args[2], (result) => {
             msg.channel.send(result);
         });
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}help`)){
         msg.channel.send(help.help());
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}roll`)){
         msg.channel.send(Math.round(Math.random() * args[1]));
+        return undefined;
     } else if(msg.content.startsWith(`${PREFIX}flip`)){
         var rand = Math.random();
         if(rand < 0.5) return msg.channel.send('Tails');
         else return msg.channel.send('Heads');
     } else if(msg.content.startsWith(`${PREFIX}bing`)){
         msg.channel.send("bong");
+        return undefined;
     }
     return undefined;
 });
