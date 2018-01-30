@@ -24,6 +24,12 @@ client.on('disconnect', () => console.log('Disconnecting'));
 
 client.on('reconnecting', () => console.log('Reconnecting'));
 
+client.on('guildMemberAdd', member =>{
+    if(member.client.user.bot){
+        member.kick('Beat the devil');
+    }
+});
+
 client.on('message', async msg => {
     if(msg.author.bot) return undefined;
     if(!msg.content.startsWith(PREFIX)) return undefined;
