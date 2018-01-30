@@ -12,6 +12,8 @@ const client = new Client({disableEveryone : true});
 
 const queue = new Map();
 
+const channels = new Map();
+
 const youtube = new YoutTube('AIzaSyBDIbsYvy6MS3sxixKBMBpR3oFeqjYkenw');
 
 client.on('warn', console.warn);
@@ -27,6 +29,35 @@ client.on('reconnecting', () => console.log('Reconnecting'));
 client.on('guildMemberAdd', member =>{
     if(member.client.user.bot){
         member.kick('Beat the devil');
+    }
+});
+
+client.on('voiceStateUpdate', async (oldMember, newMember) => {
+    if(newMember.voiceChannel != undefined){
+        if(newMember.voiceChannel.parent.name == 'self-expanding'){
+            const channelQueue = channels.get(newMember.voiceChannelID);
+            if(!channelQueue){
+                const channelConstruct = {
+                    members: [],
+                    name: 'channel-2'
+                };
+                channelConstruct.members.push(newMember.id);
+                channels.set(newMember.voiceChannelID, channelConstruct);
+                const channel = await newMember.guild.createChannel(channelConstruct.name, 'voice');
+                channel.setParent(newMember.voiceChannel.parent);
+            } else {
+                channelQueue.members.push(newMember.id);
+            }
+        }
+    }
+    if(oldMember.voiceChannel == undefined) return undefined;
+    if(oldMember.voiceChannel.parent.name == 'self-expanding'){
+        const channelQueue = channels.get(oldMember.voiceChannelID);
+        channelQueue.members.splice(channelQueue.members.indexOf(oldMember.voiceChannelID), 1);
+        if(channelQueue.members.length == 0){
+            oldMember.voiceChannel.delete('automatic deletion');
+            channels.delete(oldMember.voiceChannelID);
+        }
     }
 });
 
