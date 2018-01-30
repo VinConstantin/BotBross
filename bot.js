@@ -14,6 +14,8 @@ const queue = new Map();
 
 const channels = new Map();
 
+const bobQuotes = ['Happy little trees', 'Beat the devil', 'Happy accidents', 'Let\'s go crazy', 'Happy little clouds'];
+
 const youtube = new YoutTube('AIzaSyBDIbsYvy6MS3sxixKBMBpR3oFeqjYkenw');
 
 client.on('warn', console.warn);
@@ -39,7 +41,7 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
             if(!channelQueue){
                 const channelConstruct = {
                     members: [],
-                    name: 'channel-2'
+                    name: bobQuotes[Math.floor(Math.random() * bobQuotes.length)]
                 };
                 channelConstruct.members.push(newMember.id);
                 channels.set(newMember.voiceChannelID, channelConstruct);
