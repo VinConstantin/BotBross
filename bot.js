@@ -34,6 +34,7 @@ client.on('guildMemberAdd', member =>{
     }
 });
 
+// Auto voiceChannel scaling
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
     if(newMember.voiceChannel != undefined){
         if(newMember.voiceChannel.parent.name == 'self-expanding'){
@@ -63,6 +64,7 @@ client.on('voiceStateUpdate', async (oldMember, newMember) => {
     }
 });
 
+// Message event
 client.on('message', async msg => {
     if(msg.author.bot) return undefined;
     if(!msg.content.startsWith(PREFIX)) return undefined;
@@ -70,6 +72,7 @@ client.on('message', async msg => {
     const search = args.slice(1).join(' ');
     const serverQueue = queue.get(msg.guild.id);
     
+    // Play event 
     if(msg.content.startsWith(`${PREFIX}play`)){
         const voiceChannel = msg.member.voiceChannel;
         if(!voiceChannel) return msg.channel.send('Not in a voice channel');
@@ -194,6 +197,7 @@ client.on('message', async msg => {
         msg.channel.send(help.help());
         return undefined;
     } else if(msg.content.startsWith(`${PREFIX}roll`)){
+        if(args[1] == undefined) args[1] = 10;
         msg.channel.send(Math.round(Math.random() * args[1]));
         return undefined;
     } else if(msg.content.startsWith(`${PREFIX}flip`)){
@@ -202,6 +206,9 @@ client.on('message', async msg => {
         else return msg.channel.send('Heads');
     } else if(msg.content.startsWith(`${PREFIX}bing`)){
         msg.channel.send("bong");
+        return undefined;
+    } else if(msg.content.startsWith(`${PREFIX}reee`)){
+        msg.channel.send('REEEEEEEE', tts = true);
         return undefined;
     }
     return undefined;
