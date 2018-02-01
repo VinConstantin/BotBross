@@ -41,21 +41,53 @@ exports.getTemp = function(coords, cb){
             direction = 'NW'
         }
 
-        var emoji;
+        var emoji = 'http://images.clipartpanda.com/sun-clip-art-sun-medium.png';
         if(str.weather[0].main == 'Clouds'){
-            emoji = ':cloud:';
+            emoji = 'http://moziru.com/images/dreaming-clipart-dream-bubble-7.png';
         } else if(str.weather[0].main == 'Rain'){
-            emoji = ':cloud_rain:';
+            emoji = 'http://www.clker.com/cliparts/w/F/h/x/4/3/rain-cloud-md.png';
         } else if(str.weather[0].main == 'Clear'){
-            emoji = ':sunny:';
+            emoji = 'http://images.clipartpanda.com/sun-clip-art-sun-medium.png';
         } else if(str.weather[0].main == 'Mist'){
-            emoji = ':cloud_rain:';
+            emoji = 'http://moziru.com/images/mist-clipart-transparent-5.png';
         } else if(str.weather[0].main == 'Snow'){
-            emoji = ':cloud_snow:';
+            emoji = 'https://clipartion.com/wp-content/uploads/2015/11/snow-clipart-png-file-tag-list-snow-clip-arts-file-clipartsfree.png';
         }
         var temp = Math.round(str.main.temp - 273.15);
-        cb('**' + str.name + ', ' + str.sys.country + '** ' + emoji +
-        '\n```Temperature: ' + temp + ' degrees celcius \nSky: ' + str.weather[0].main + '\nWind: ' + 
-        str.wind.speed + ' Km/h in the ' + direction + ' direction\nHumidity: ' + str.main.humidity + '%```');
+        cb({
+            embed: {
+                color: 0x0099ff,
+                title: str.name + ', ' + str.sys.country,
+                description: str.weather[0].description,
+                thumbnail: {
+                    url: emoji,
+                },
+                fields: [
+                    {
+                        name: '\u200b',
+                        value: '\u200b',
+                    },
+                    {
+                        name: 'Temperature',
+                        value: 'It is currently ' + temp + '°C',
+                        inline: true,
+                    },
+                    {
+                        name: 'Wind',
+                        value: str.wind.speed + ' Km/h in the ' + direction + ' direction',
+                        inline: true,
+                    },
+                    {
+                        name: 'Humditiy',
+                        value: str.main.humidity + '%',
+                        inline: true,
+                    },
+                ],
+                timestamp: new Date(),
+                footer: {
+                    text: 'Data  from openWeather',
+                },
+            },
+        });
     });
 }
