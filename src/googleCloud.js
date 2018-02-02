@@ -19,3 +19,19 @@ exports.getText = async function(parameter, cb){
             }
         });
 }
+
+exports.getLabel = async function(parameter, cb){
+    if(parameter == undefined) return undefined;
+    client
+        .labelDetection(parameter)
+        .then(results => {
+            try {
+                const labels = results[0].labelAnnotations;
+                cb(labels[0].description);
+            } catch (error) {
+                cb("Cannot find a thing");
+                console.log(error);
+            }
+            
+        });
+}

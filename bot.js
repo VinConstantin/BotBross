@@ -216,6 +216,11 @@ client.on('message', async msg => {
             msg.channel.send(myMessage);
         });
         return undefined;
+    } else if(msg.content.startsWith(`${PREFIX}label`)){
+        google.getLabel(args[1], (myMessage) => {
+            msg.channel.send(myMessage);
+        });
+        return undefined;
     }
     return undefined;
 });
