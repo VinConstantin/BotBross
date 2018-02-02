@@ -6,6 +6,7 @@ const sun = require('./src/sun.js');
 const steam = require('./src/steam.js');
 const rl = require('./src/rocketleague.js');
 const help = require('./src/help.js');
+const google = require('./src/googleCloud.js');
 const YoutTube = require('simple-youtube-api');
 
 const client = new Client({disableEveryone : true});
@@ -209,6 +210,11 @@ client.on('message', async msg => {
         return undefined;
     } else if(msg.content.startsWith(`${PREFIX}reee`)){
         msg.channel.send('REEEEEEEE', tts = true);
+        return undefined;
+    } else if(msg.content.startsWith(`${PREFIX}text`)){
+        google.getText(args[1], (myMessage) => {
+            msg.channel.send(myMessage);
+        });
         return undefined;
     }
     return undefined;
