@@ -1,8 +1,8 @@
 var unirest = require('unirest')
-
+const {API_GOOGLE} = require('../config.js');
 exports.getCoords = function(parameter, cb){
     var parameter = "montreal"
-    var req = unirest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+parameter+"&key=AIzaSyD0a9JWT3wqRsJ_psa-K0d7dqAzZqjbAiE");
+    var req = unirest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+parameter+"&key="+API_GOOGLE);
     var coords = new Array(2);
     req.end(function (res) {
         if (res.error) throw new Error(res.error);

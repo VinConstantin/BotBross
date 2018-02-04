@@ -1,9 +1,9 @@
 var unirest = require('unirest');
-
+const {API_GOOGLE, API_WEATHER} = require('../config.js');
 
 exports.getCoords = function(parameter, cb){
     if(parameter == null) parameter = 'Montreal';
-    var req = unirest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+parameter+"&key=AIzaSyD0a9JWT3wqRsJ_psa-K0d7dqAzZqjbAiE");
+    var req = unirest("GET", "https://maps.googleapis.com/maps/api/geocode/json?address="+parameter+"&key="+API_GOOGLE);
     var coords = [new Array(2)];
     req.end(function (res) {
         if (res.error) throw new Error(res.error);
@@ -16,7 +16,7 @@ exports.getCoords = function(parameter, cb){
 
 exports.getTemp = function(coords, cb){
     var str;
-    const url = "http://api.openweathermap.org/data/2.5/weather?lat="+coords[0]+"&lon="+coords[1]+"&appid=53623a4cbf5ea5fa7fddd093b6a049b6"; 
+    const url = "http://api.openweathermap.org/data/2.5/weather?lat="+coords[0]+"&lon="+coords[1]+"&appid="+API_WEATHER; 
     console.log(url)
     var request = unirest("GET",url);
      request.end(function (result) {
