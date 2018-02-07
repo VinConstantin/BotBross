@@ -12,14 +12,56 @@ exports.getPlayer = function(parameter, parameter2, cb){
 			}
 			else {
 				if(parameter == 'stats'){
-					stats[0] = string.stats.wins; 
-					stats[1] = string.stats.goals; 
-					stats[2] = string.stats.mvps; 
-					stats[3] = string.stats.saves; 
-					stats[4] = string.stats.shots; 
-					stats[5] = string.stats.assists;
-					stats[6] = string.displayName;
-					cb("**"+ stats[6] + "**```Wins: " + stats[0] + "\nGoals: " + stats[1] + "\nMVPs: " + stats[2] + "\nSaves: " + stats[3] + "\nShots: " + stats[5] + "\nAssists: " + stats[5] + "```");
+					cb({
+						embed: {
+							color: 0x0099ff,
+							title: string.displayName,
+							description: 'Major stats for ' + string.displayName,
+							thumbnail: {
+								url: 'http://media.steampowered.com/steamcommunity/public/images/apps/252950/3854e40582bc14b8ba3c9ee163a0fa64bc538def.jpg',
+							},
+							fields: [
+								{
+									name: '\u200b',
+									value: '\u200b',
+								},
+								{
+									name: 'Goals',
+									value: string.stats.goals,
+									inline: true,
+								},
+								{
+									name: 'Saves',
+									value: string.stats.saves,
+									inline: true,
+								},
+								{
+									name: 'Wins',
+									value: string.stats.wins,
+									inline: true,
+								},
+								{
+									name: 'MVPS',
+									value: string.stats.mvps,
+									inline: true,
+								},
+								{
+									name: 'Shots',
+									value: string.stats.shots,
+									inline: true,
+								},
+								{
+									name: 'Assists',
+									value: string.stats.assists,
+									inline: true,
+								},
+							],
+							timestamp: new Date(),
+							footer: {
+								text: 'Data  from rocket league stats',
+							},
+						},
+					});
 				} else if(parameter == 'ranked'){
 					var stats = new Array(4);
 					stats[0] = string.rankedSeasons["6"]["10"].rankPoints;
@@ -27,7 +69,46 @@ exports.getPlayer = function(parameter, parameter2, cb){
 					stats[2] = string.rankedSeasons["6"]["12"].rankPoints;
 					stats[3] = string.rankedSeasons["6"]["13"].rankPoints;
 					stats[4] = string.displayName;
-					cb("**"+ stats[4]+"**```Solo duel: " + stats[0] + "\nDoubles: " + stats[1] + "\nSolo standard: " + stats[2] + "\nStandard: " + stats[3] + "```");
+					cb({
+						embed: {
+							color: 0x0099ff,
+							title: string.displayName,
+							description: 'Major stats for ' + string.displayName,
+							thumbnail: {
+								url: 'http://media.steampowered.com/steamcommunity/public/images/apps/252950/3854e40582bc14b8ba3c9ee163a0fa64bc538def.jpg',
+							},
+							fields: [
+								{
+									name: '\u200b',
+									value: '\u200b',
+								},
+								{
+									name: 'Solo duel',
+									value: string.rankedSeasons['6']['10'].rankPoints,
+									inline: true,
+								},
+								{
+									name: 'Doubles',
+									value: string.rankedSeasons['6']['11'].rankPoints,
+									inline: true,
+								},
+								{
+									name: 'Solo standard',
+									value: string.rankedSeasons['6']['12'].rankPoints,
+									inline: true,
+								},
+								{
+									name: 'Standard',
+									value: string.rankedSeasons['6']['13'].rankPoints,
+									inline: true,
+								},
+							],
+							timestamp: new Date(),
+							footer: {
+								text: 'Data  from rocket league stats',
+							},
+						},
+					});
 				} else {
 					cb("Choose a category");
 				}
@@ -37,6 +118,4 @@ exports.getPlayer = function(parameter, parameter2, cb){
 		}
     });  
 }
-
-//0FDL3CSOT9RRIAEBPIT00A9IN853TV2L
 
