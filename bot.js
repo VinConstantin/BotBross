@@ -29,12 +29,6 @@ client.on('disconnect', () => console.log('Disconnecting'));
 
 client.on('reconnecting', () => console.log('Reconnecting'));
 
-client.on('guildMemberAdd', member =>{
-    if(member.client.user.bot){
-        member.kick('Beat the devil');
-    }
-});
-
 // Auto voiceChannel scaling
 client.on('voiceStateUpdate', async (oldMember, newMember) => {
     if(newMember.voiceChannel != undefined){
