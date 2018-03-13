@@ -1,5 +1,5 @@
 const {Client} = require('discord.js');
-const{TOKEN, PREFIX} = require('./config');
+const{TOKEN, PREFIX, API_YOUTUBE} = require('./config');
 const ytdl = require('ytdl-core');
 const weather = require('./src/weather.js');
 const sun = require('./src/sun.js');
@@ -17,7 +17,7 @@ const channels = new Map();
 
 const bobQuotes = ['Happy little trees', 'Beat the devil', 'Happy accidents', 'Let\'s go crazy', 'Happy little clouds'];
 
-const youtube = new YoutTube('AIzaSyBDIbsYvy6MS3sxixKBMBpR3oFeqjYkenw');
+const youtube = new YoutTube(API_YOUTUBE);
 
 client.on('warn', console.warn);
 
